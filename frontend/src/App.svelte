@@ -1,41 +1,17 @@
-<script>
-  import { onMount } from 'svelte'
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from './assets/vite.svg'
-  import heroImg from './assets/hero.png'
-  import Counter from './lib/Counter.svelte'
+<script lang="ts">
+  import Router from 'svelte-spa-router'
+  import Landing from './pages/Landing.svelte'
+  import About from './pages/About.svelte'
 
-  const ENDPOINT = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8080'}/health`;
-  let healthResponse = $state('loading...');
-
-  onMount(async () => {
-    try {
-      healthResponse = await fetch(ENDPOINT).then((res) => res.text());
-    } catch (err) {
-      healthResponse = `error: ${err}`;
-    }
-  });
+  const routes = {
+    '/': Landing,
+    '/about': About,
+  }
 </script>
 
-<section id="center">
-  <div class="hero">
-    <img src={heroImg} class="base" width="170" height="179" alt="" />
-    <img src={svelteLogo} class="framework" alt="Svelte logo" />
-    <img src={viteLogo} class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Squad 44</h1>
-  </div>
-  <Counter />
-</section>
+<nav>
+  <a href="#/">Landing</a>
+  <a href="#/about">About</a>
+</nav>
 
-<div class="ticks"></div>
-
-<section id="next-steps">
-  <div id="docs">
-    {healthResponse}
-  </div>
-</section>
-
-<div class="ticks"></div>
-<section id="spacer"></section>
+<Router {routes} />
