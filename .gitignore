@@ -1,2 +1,6 @@
-**/*.env
+# Environment files (any directory)
+.env
+.env.*
+!.env.example
+
 node_modules/

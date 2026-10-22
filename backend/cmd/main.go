@@ -13,6 +13,7 @@ type HealthResponse struct {
 func main() {
 	mux := http.NewServeMux()
 
+
 	// Define an endpoint
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
