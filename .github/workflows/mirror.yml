@@ -16,5 +16,5 @@ jobs:
         env:
           TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
         run: |
-          git remote add public https://x-access-token:${TOKEN}@github.com/YOUR_USER/mysite-deploy.git
+          git remote add public https://x-access-token:${TOKEN}@github.com/JadonLee8/CSCE331Project3Hosting.git
           git push public main --force
