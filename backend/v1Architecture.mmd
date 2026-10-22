@@ -1,0 +1,23 @@
+---
+title: Kiosk architecture — V1
+---
+flowchart LR
+    subgraph FE["Svelte frontend (Vite, :5173)"]
+        C["Customer pages<br/>menu, cart, status"]
+        A["Admin page<br/>bearer token, polls"]
+    end
+
+    subgraph BE["Go backend (one binary, :8080)"]
+        H["handlers<br/>routes, auth"]
+        S["store<br/>SQL queries"]
+        M["models<br/>structs mirrored in types.ts"]
+        H --> S
+        H -.-> M
+        S -.-> M
+    end
+
+    DB[("SQLite<br/>kiosk.db")]
+
+    C -- "JSON /api" --> H
+    A -- "JSON /api + token" --> H
+    S --> DB
