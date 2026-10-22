@@ -13,11 +13,10 @@ type HealthResponse struct {
 func main() {
 	mux := http.NewServeMux()
 
-
 	// Define an endpoint
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w.Encode(HealthResponse{Status: "OK"}))
+		json.NewEncoder((w)).Encode(HealthResponse{Status: "OK"})
 	})
 
 	// Start server on port 8080
