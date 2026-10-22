@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "npm install --prefix frontend",
     "frontend": "npm run dev --prefix frontend",
-    "backend": "cd backend && go run main.go",
+    "backend": "cd backend && go run cmd/main.go",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "build:frontend": "npm run build --prefix frontend",
     "build:backend": "cd backend && go build -o bin/server main.go",
