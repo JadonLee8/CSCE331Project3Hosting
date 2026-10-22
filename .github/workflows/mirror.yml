@@ -11,10 +11,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Push to public repo
         env:
           TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
         run: |
-          git remote add public https://x-access-token:${TOKEN}@github.com/JadonLee8/CSCE331Project3Hosting.git
+          TOKEN="$(printf '%s' "$TOKEN" | tr -d '[:space:]')"
+          if [ -z "$TOKEN" ]; then echo "PUBLIC_REPO_TOKEN secret is empty or missing" >&2; exit 1; fi
+          git remote add public "https://x-access-token:${TOKEN}@github.com/JadonLee8/CSCE331Project3Hosting.git"
           git push public main --force
