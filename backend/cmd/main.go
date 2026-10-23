@@ -3,6 +3,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -10,7 +11,7 @@ type HealthResponse struct {
 	Status string `json:"status"`
 }
 
-type HelloResponse struct{
+type HelloResponse struct {
 	Message string `json:"message"`
 }
 
@@ -18,7 +19,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	// Define an endpoint
-	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request){
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(HelloResponse{Message: "Hello World!"})
 	})
@@ -29,8 +30,8 @@ func main() {
 	})
 
 	// Start server on port 8080
-	print("Server running on port 8080...\n")
+	log.Println("Server running on port 8080...\n")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
-		panic(err)
+		log.Fatal(http.ListenAndServe(":8080", mux))
 	}
 }
