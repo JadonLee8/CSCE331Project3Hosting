@@ -62,7 +62,7 @@ func main() {
 			json.NewEncoder(w).Encode(HealthResponse{Status: "DB unreachable: " + err.Error()})
 			return
 		}
-		json.NewEncoder(w).Encode(HealthResponse{Status: "OK"})
+		json.NewEncoder(w).Encode(HealthResponse{Status: "DB OK"})
 	})
 
 	mux.HandleFunc("GET /api/menu-items", func(w http.ResponseWriter, r *http.Request) {
