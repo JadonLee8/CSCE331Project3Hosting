@@ -61,7 +61,7 @@ func main() {
 			json.NewEncoder(w).Encode(HealthResponse{Status: "DB unreachable: " + err.Error()})
 			return
 		}
-		json.NewEncoder(w).Encode(HealthResponse{Status: "OK"})
+		json.NewEncoder(w).Encode(HealthResponse{Status: "DB OK"})
 	})
 
 	// Start server on port 8080
