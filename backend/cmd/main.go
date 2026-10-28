@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"squad44-backend/internal/config"
+	"squad44-backend/model"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -61,7 +62,37 @@ func main() {
 			json.NewEncoder(w).Encode(HealthResponse{Status: "DB unreachable: " + err.Error()})
 			return
 		}
-		json.NewEncoder(w).Encode(HealthResponse{Status: "OK"})
+		json.NewEncoder(w).Encode(HealthResponse{Status: "DB OK"})
+	})
+
+	mux.HandleFunc("GET /api/menu-items", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		rows, err := pool.Query(r.Context(), "SELECT id, name, description, price FROM menu_items")
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error fetching menu items: " + err.Error()})
+			return
+		}
+		defer rows.Close()
+
+		var menuItems []model.MenuItem
+		for rows.Next() {
+			var item model.MenuItem
+			if err := rows.Scan(&item.MenuItemID, &item.Name, &item.ImageURL, &item.Price); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(w).Encode(HealthResponse{Status: "Error scanning menu item: " + err.Error()})
+				return
+			}
+			menuItems = append(menuItems, item)
+		}
+
+		if err := rows.Err(); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error iterating over menu items: " + err.Error()})
+			return
+		}
+
+		json.NewEncoder(w).Encode(menuItems)
 	})
 
 	// Start server on port 8080
