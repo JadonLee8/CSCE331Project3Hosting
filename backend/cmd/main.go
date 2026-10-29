@@ -50,7 +50,7 @@ func main() {
 
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder((w)).Encode(HealthResponse{Status: "OK"})
+		json.NewEncoder(w).Encode(HealthResponse{Status: "OK"})
 	})
 
 	// test api for db
@@ -95,6 +95,20 @@ func main() {
 		}
 
 		json.NewEncoder(w).Encode(menuItems)
+	})
+
+	mux.HandleFunc("GET /api/menu-items/{id}", func(w http.ResponseWriter, r *http.Request) {
+		println("Fetching menu item by ID from database...")
+		w.Header().Set("Content-Type", "application/json")
+		id := r.PathValue("id")
+		var item model.MenuItem
+		err := pool.QueryRow(r.Context(), "SELECT menu_item_id, menu_item_name, price FROM menu_items WHERE menu_item_id = $1", id).Scan(&item.Menu_item_id, &item.Menu_item_name, &item.Price)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error fetching menu item: " + err.Error()})
+			return
+		}
+		json.NewEncoder(w).Encode(item)
 	})
 
 	// Start server on port 8080
