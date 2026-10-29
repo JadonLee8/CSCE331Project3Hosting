@@ -1,0 +1,43 @@
+.place-order {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 200px;
+  padding: 16px;
+  border-right: 1px solid var(--border);
+}
+
+.categories button {
+  padding: 16px;
+  font-size: 18px;
+}
+
+.categories button.selected {
+  border: 2px solid var(--accent);
+}
+
+.menu-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  align-content: start;
+  overflow-y: auto;
+}
+
+.menu-item {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+}
