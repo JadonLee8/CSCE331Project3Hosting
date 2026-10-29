@@ -1,4 +1,6 @@
 <script lang="ts">
+  import './Landing.css'
+
   let dbStatus: string = $state('')
   let menuItems: { menu_item_name: string; price: number }[] = $state([])
 
@@ -23,6 +25,7 @@
   }
 </script>
     
+<div class="landing">
 <h1>Landing Page</h1>
 <p>Welcome to Dunsin's Donuts</p>
 <button type="button" onclick={fetchMenuItems}>Fetch Menu Items</button>
@@ -33,3 +36,4 @@
 
 <button type="button" onclick={pingDb}>Test DB connection</button>
 <p>{dbStatus}</p>
+</div>

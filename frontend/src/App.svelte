@@ -3,11 +3,13 @@
   import Landing from './pages/Landing.svelte'
   import About from './pages/About.svelte'
   import Sean from './pages/Sean.svelte'
+  import PlaceOrder from './pages/PlaceOrder.svelte'
 
   const routes = {
     '/': Landing,
     '/about': About,
     '/sean': Sean,
+    '/order': PlaceOrder,
   }
 
   ;(window as any).googleTranslateElementInit = () => {
@@ -24,7 +26,7 @@
   <a href="#/">Landing</a>
   <a href="#/about">About</a>
   <a href = "#/sean"> Sean </a>
-  
+  <a href="#/order">Place Order</a>
 </nav>
 
 <Router {routes} />
