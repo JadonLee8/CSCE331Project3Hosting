@@ -55,6 +55,7 @@ func main() {
 
 	// test api for db
 	mux.HandleFunc("GET /api/db-ping", func(w http.ResponseWriter, r *http.Request) {
+		println("Pinging database...")
 		w.Header().Set("Content-Type", "application/json")
 		// when pinging, passes in context of req so is active for duration of req, stops when client exits page
 		if err := pool.Ping(r.Context()); err != nil {
@@ -66,8 +67,9 @@ func main() {
 	})
 
 	mux.HandleFunc("GET /api/menu-items", func(w http.ResponseWriter, r *http.Request) {
+		println("Fetching menu items from database...")
 		w.Header().Set("Content-Type", "application/json")
-		rows, err := pool.Query(r.Context(), "SELECT id, name, description, price FROM menu_items")
+		rows, err := pool.Query(r.Context(), "SELECT menu_item_id, menu_item_name, price FROM menu_items")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(HealthResponse{Status: "Error fetching menu items: " + err.Error()})
@@ -78,7 +80,7 @@ func main() {
 		var menuItems []model.MenuItem
 		for rows.Next() {
 			var item model.MenuItem
-			if err := rows.Scan(&item.MenuItemID, &item.Name, &item.ImageURL, &item.Price); err != nil {
+			if err := rows.Scan(&item.Menu_item_id, &item.Menu_item_name, &item.Price); err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				json.NewEncoder(w).Encode(HealthResponse{Status: "Error scanning menu item: " + err.Error()})
 				return

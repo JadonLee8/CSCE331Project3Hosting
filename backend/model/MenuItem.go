@@ -3,12 +3,12 @@ package model
 import "time"
 
 type MenuItem struct {
-	MenuItemID  int
-	Name        string
-	Price       float64
-	ImageURL    string
-	SeasonStart *time.Time
-	SeasonEnd   *time.Time
+	Menu_item_id   int        `json:"menu_item_id"`
+	Menu_item_name string     `json:"menu_item_name"`
+	Price          float64    `json:"price"`
+	ImageURL       string     `json:"image_url"`
+	SeasonStart    *time.Time `json:"season_start"`
+	SeasonEnd      *time.Time `json:"season_end"`
 }
 
 func (m MenuItem) InSeason(day time.Time) bool {
