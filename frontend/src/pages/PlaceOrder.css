@@ -1,3 +1,8 @@
+/* Let the order screen span the full page width */
+#app:has(> .place-order) {
+  width: 100%;
+}
+
 .place-order {
   display: flex;
   flex: 1;
