@@ -22,11 +22,36 @@
     }
   }
 </script>
+
+<style>
+  /* This only targets <button> elements inside THIS component */
+  button {
+    background: royalblue;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  :root{
+    background: grey;
+  }
+</style>
     
 <h1>Landing Page</h1>
 <p>Welcome to Dunsin's Donuts</p>
+
+<p>Replace with the image for dunsin donuts</p>
+
+
+
+<button>Order Now</button>
+
+
 <button type="button" onclick={fetchMenuItems}>Fetch Menu Items</button>
 <p>Menu items:</p>
+
 {#each menuItems as item}
   <span>{item.menu_item_name}: ${item.price}</span>
 {/each}
