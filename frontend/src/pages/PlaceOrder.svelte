@@ -1,6 +1,4 @@
 <script lang="ts">
-  import './PlaceOrder.css'
-
   type MenuItem = {
     menu_item_id: number
     menu_item_name: string
@@ -36,12 +34,16 @@
   })
 </script>
 
-<div class="place-order">
-  <aside class="categories">
+<div class="place-order flex min-h-0 flex-1">
+  <aside class="flex w-[200px] flex-col gap-2 border-r border-line py-4 pr-4">
     {#each categories as category}
       <button
         type="button"
-        class:selected={category === selectedCategory}
+        class={[
+          'btn text-left',
+          category === selectedCategory &&
+            'border-primary-dark bg-primary text-white hover:bg-primary',
+        ]}
         onclick={() => (selectedCategory = category)}
       >
         {category}
@@ -49,11 +51,11 @@
     {/each}
   </aside>
 
-  <main class="menu-grid">
+  <main class="grid flex-1 grid-cols-[repeat(auto-fill,minmax(160px,1fr))] content-start gap-4 overflow-y-auto p-4">
     {#each visibleItems as item (item.menu_item_id)}
-      <button type="button" class="menu-item">
+      <button type="button" class="btn flex aspect-square flex-col items-center justify-center gap-1 font-medium">
         <span>{item.menu_item_name}</span>
-        <span>${item.price.toFixed(2)}</span>
+        <span class="font-normal text-muted">${item.price.toFixed(2)}</span>
       </button>
     {/each}
   </main>

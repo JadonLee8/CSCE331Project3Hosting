@@ -23,41 +23,16 @@
 <svelte:head>
   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </svelte:head>
-<style>
-  nav {
-    background:pink;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    display:flex;
-    justify-content: space-between;
-    padding: 1rem; 
-    align-items:center;
-  }
-  .NavigationText{
-    color:aliceblue;
-    text-decoration: none;
-    font-size: 20px
-  }
-  .order{
-    background-color: grey;
-    color:white;
-    text-decoration: none;
-    font-size: 20px;
-    gap: 1.5rem
-  }
-  
-</style>
-<nav>
-  <a href="#/" class = "NavigationText">Dunsin Donuts</a>
-  <a href="#/about" class = "NavigationText">About</a>
-  <a href = "#/sean" class = "NavigationText"> Sean </a>
-  
-  <a href = '#/order' class = "Order">Order Now</a>
+<nav class="flex items-center gap-6 border-b border-line py-4 font-medium">
+  <a href="#/" class="mr-auto text-xl font-bold text-primary-dark">Dunsin's Donuts</a>
+  <a href="#/about" class="text-muted hover:text-primary">About</a>
+  <a href="#/sean" class="text-muted hover:text-primary">Sean</a>
+  <a href="#/order" class="rounded bg-primary px-4 py-2 text-white hover:bg-primary-dark">Order Now</a>
 </nav>
 
 <Router {routes} />
 
-<footer>
+<footer class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-line py-4 text-sm text-muted">
   <p>&copy; {new Date().getFullYear()} Dunsin's Donuts</p>
   <div id="google_translate_element"></div>
 </footer>

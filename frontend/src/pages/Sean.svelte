@@ -1,6 +1,6 @@
 
 
-<h1> hi im sean </h1>
+<h1 class="mt-8 mb-4 text-4xl font-semibold tracking-tight text-primary-dark"> hi im sean </h1>
 
 <script>
   // This runs when the component initializes
@@ -13,5 +13,5 @@
   }
 </script>
 
-<button onclick={showAlert}>Show Native Alert</button>
-<button onclick={callBackend}>Call Backend</button>
+<button class="btn" onclick={showAlert}>Show Native Alert</button>
+<button class="btn" onclick={callBackend}>Call Backend</button>
