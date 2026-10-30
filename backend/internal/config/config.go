@@ -9,11 +9,12 @@ import (
 )
 
 type Config struct {
-	Port       string
-	DBHost     string
-	DBUser     string
-	DBName     string
-	DBPassword string
+	Port          string
+	DBHost        string
+	DBUser        string
+	DBName        string
+	DBPassword    string
+	WeatherAPIKey string
 }
 
 func Load() (Config, error) {
@@ -23,11 +24,12 @@ func Load() (Config, error) {
 	}
 
 	cfg := Config{
-		Port:       getEnv("PORT", "8080"),
-		DBHost:     getEnv("DB_HOST", "csce-315-db.engr.tamu.edu"),
-		DBUser:     getEnv("DB_USER", "squad_44"),
-		DBName:     getEnv("DB_NAME", "squad_44_db"),
-		DBPassword: getEnv("DB_PASSWORD", ""),
+		Port:          getEnv("PORT", "8080"),
+		DBHost:        getEnv("DB_HOST", "csce-315-db.engr.tamu.edu"),
+		DBUser:        getEnv("DB_USER", "squad_44"),
+		DBName:        getEnv("DB_NAME", "squad_44_db"),
+		DBPassword:    getEnv("DB_PASSWORD", ""),
+		WeatherAPIKey: getEnv("WEATHER_API", ""),
 	}
 
 	if cfg.DBPassword == "" {

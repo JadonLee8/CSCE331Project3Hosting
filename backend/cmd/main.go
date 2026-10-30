@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/url"
 	"squad44-backend/internal/config"
 	"squad44-backend/model"
 
@@ -18,6 +19,12 @@ type HealthResponse struct {
 
 type HelloResponse struct {
 	Message string `json:"message"`
+}
+
+type WeatherResponse struct {
+	City        string  `json:"city"`
+	Temp        float64 `json:"temp"`
+	Description string  `json:"description"`
 }
 
 func main() {
@@ -109,6 +116,59 @@ func main() {
 			return
 		}
 		json.NewEncoder(w).Encode(item)
+	})
+
+	// current weather via OpenWeatherMap, ?city= defaults to College Station
+	mux.HandleFunc("GET /api/weather", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		if cfg.WeatherAPIKey == "" {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "WEATHER_API not set"})
+			return
+		}
+		city := r.URL.Query().Get("city")
+		if city == "" {
+			city = "College Station"
+		}
+		q := url.Values{"q": {city}, "appid": {cfg.WeatherAPIKey}, "units": {"imperial"}}
+		req, err := http.NewRequestWithContext(r.Context(), "GET", "https://api.openweathermap.org/data/2.5/weather?"+q.Encode(), nil)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error building weather request: " + err.Error()})
+			return
+		}
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			w.WriteHeader(http.StatusBadGateway)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error fetching weather: " + err.Error()})
+			return
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != http.StatusOK {
+			w.WriteHeader(http.StatusBadGateway)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Weather API returned " + resp.Status})
+			return
+		}
+
+		var owm struct {
+			Name string `json:"name"`
+			Main struct {
+				Temp float64 `json:"temp"`
+			} `json:"main"`
+			Weather []struct {
+				Description string `json:"description"`
+			} `json:"weather"`
+		}
+		if err := json.NewDecoder(resp.Body).Decode(&owm); err != nil {
+			w.WriteHeader(http.StatusBadGateway)
+			json.NewEncoder(w).Encode(HealthResponse{Status: "Error decoding weather: " + err.Error()})
+			return
+		}
+		out := WeatherResponse{City: owm.Name, Temp: owm.Main.Temp}
+		if len(owm.Weather) > 0 {
+			out.Description = owm.Weather[0].Description
+		}
+		json.NewEncoder(w).Encode(out)
 	})
 
 	// Start server on port 8080
