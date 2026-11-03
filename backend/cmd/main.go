@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"slices"
 	"squad44-backend/internal/config"
 	"squad44-backend/model"
 
@@ -173,7 +174,18 @@ func main() {
 
 	// Start server on port 8080
 	log.Println("Server running on port 8080...")
-	if err := http.ListenAndServe(":8080", mux); err != nil {
-		log.Fatal(http.ListenAndServe(":8080", mux))
-	}
+	cors := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if origin := r.Header.Get("Origin"); slices.Contains(cfg.CORSOrigins, origin) {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Vary", "Origin")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		}
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		mux.ServeHTTP(w, r)
+	})
+	log.Fatal(http.ListenAndServe(":8080", cors))
 }

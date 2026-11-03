@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -15,6 +16,7 @@ type Config struct {
 	DBName        string
 	DBPassword    string
 	WeatherAPIKey string
+	CORSOrigins   []string // comma-separated CORS_ORIGINS
 }
 
 func Load() (Config, error) {
@@ -30,6 +32,7 @@ func Load() (Config, error) {
 		DBName:        getEnv("DB_NAME", "squad_44_db"),
 		DBPassword:    getEnv("DB_PASSWORD", ""),
 		WeatherAPIKey: getEnv("WEATHER_API", ""),
+		CORSOrigins:   strings.Split(getEnv("CORS_ORIGINS", "http://localhost:5173"), ","),
 	}
 
 	if cfg.DBPassword == "" {
