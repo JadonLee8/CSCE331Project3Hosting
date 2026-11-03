@@ -32,7 +32,7 @@
 
 
 
-<button class="btn">Order Now</button>
+<a href="#/order" class="btn">Order Now</a>
 
 
 <button type="button" class="btn" onclick={fetchMenuItems}>Fetch Menu Items</button>
