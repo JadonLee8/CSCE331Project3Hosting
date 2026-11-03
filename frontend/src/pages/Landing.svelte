@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { API_URL } from "../api"
   let dbStatus: string = $state('')
   let menuItems: { menu_item_name: string; price: number }[] = $state([])
 
   async function pingDb() {
     dbStatus = 'Checking...'
     try {
-      const res = await fetch('/api/db-ping')
+      const res = await fetch(`${API_URL}/api/db-ping`)
       const body = await res.json()
       dbStatus = body.status
     } catch (err) {
@@ -15,7 +16,7 @@
 
   async function fetchMenuItems() {
     try {
-      const menuItemsResponse = await fetch('/api/menu-items')
+      const menuItemsResponse = await fetch(`${API_URL}/api/menu-items`)
       menuItems = await menuItemsResponse.json()
     } catch (err) {
       console.error('Error fetching menu items:', err)

@@ -1,14 +1,13 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [tailwindcss(), svelte()],
   server: {
-    // Forward /api calls to the Go backend so the browser sees one origin (no CORS)
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api': loadEnv(mode, process.cwd(), 'VITE_').VITE_API_URL || 'http://localhost:8080',
     },
   },
-})
+}))

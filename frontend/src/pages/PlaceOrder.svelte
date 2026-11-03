@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API_URL } from "../api"
   type MenuItem = {
     menu_item_id: number
     menu_item_name: string
@@ -22,7 +23,7 @@
 
   async function fetchMenuItems() {
     try {
-      const menuItemsResponse = await fetch('/api/menu-items')
+      const menuItemsResponse = await fetch(`${API_URL}/api/menu-items`)
       menuItems = await menuItemsResponse.json()
     } catch (err) {
       console.error('Error fetching menu items:', err)
