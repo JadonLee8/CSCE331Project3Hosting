@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"slices"
 	"squad44-backend/internal/config"
+	"squad44-backend/internal/handlers"
 	"squad44-backend/model"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -118,6 +119,9 @@ func main() {
 		}
 		json.NewEncoder(w).Encode(item)
 	})
+
+	mux.HandleFunc("POST /api/orders", handlers.CreateOrder(pool))
+	mux.HandleFunc("GET /api/employees", handlers.ListEmployees(pool))
 
 	// current weather via OpenWeatherMap, ?city= defaults to College Station
 	mux.HandleFunc("GET /api/weather", func(w http.ResponseWriter, r *http.Request) {

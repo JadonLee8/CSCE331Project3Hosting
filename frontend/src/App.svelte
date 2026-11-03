@@ -3,17 +3,17 @@
   import Landing from './pages/Landing.svelte'
   import About from './pages/About.svelte'
   import Sean from './pages/Sean.svelte'
-  import Order from './pages/Order.svelte'
   import PlaceOrder from './pages/PlaceOrder.svelte'
   import Kitchen from './pages/Kitchen.svelte'
+  import Cashier from './pages/Cashier.svelte'
 
   const routes = {
     '/': Landing,
     '/about': About,
     '/sean': Sean,
-    '/order':Order,
     '/order': PlaceOrder,
     '/kitchen': Kitchen,
+    '/cashier': Cashier,
   }
 
   ;(window as any).googleTranslateElementInit = () => {
@@ -30,6 +30,7 @@
   <a href="#/about" class="text-muted hover:text-primary">About</a>
   <a href="#/sean" class="text-muted hover:text-primary">Sean</a>
   <a href="#/kitchen" class="text-muted hover:text-primary">Kitchen</a>
+  <a href="#/cashier" class="text-muted hover:text-primary">Cashier</a>
   <a href="#/order" class="rounded bg-primary px-4 py-2 text-white hover:bg-primary-dark">Order Now</a>
 </nav>
 
