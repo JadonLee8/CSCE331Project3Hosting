@@ -5,6 +5,7 @@
   import Sean from './pages/Sean.svelte'
   import Order from './pages/Order.svelte'
   import PlaceOrder from './pages/PlaceOrder.svelte'
+  import Kitchen from './pages/Kitchen.svelte'
 
   const routes = {
     '/': Landing,
@@ -12,6 +13,7 @@
     '/sean': Sean,
     '/order':Order,
     '/order': PlaceOrder,
+    '/kitchen': Kitchen,
   }
 
   ;(window as any).googleTranslateElementInit = () => {
@@ -27,6 +29,7 @@
   <a href="#/" class="mr-auto text-xl font-bold text-primary-dark">Dunsin's Donuts</a>
   <a href="#/about" class="text-muted hover:text-primary">About</a>
   <a href="#/sean" class="text-muted hover:text-primary">Sean</a>
+  <a href="#/kitchen" class="text-muted hover:text-primary">Kitchen</a>
   <a href="#/order" class="rounded bg-primary px-4 py-2 text-white hover:bg-primary-dark">Order Now</a>
 </nav>
 
